@@ -1,0 +1,200 @@
+
+swagger: '2.0'
+info: 
+  version: "0.0.0"
+  title: 基础模块-城市模块
+basePath: /base
+host: api.tensquare.com
+paths:
+  /city: 
+    post: 
+      summary: 新增城市
+      parameters: 
+        - name: "body"
+          in: "body"
+          description: 城市实体类
+          required: true
+          schema: 
+            $ref: '#/definitions/City'
+      responses: 
+        200: 
+          description: 成功 
+          schema:
+            $ref: '#/definitions/ApiResponse'
+    get:
+      summary: 返回城市列表
+      responses: 
+        200: 
+          description: 成功 
+          schema:
+            $ref: '#/definitions/ApiCityListResponse'
+  /city/{cityId}: 
+    put: 
+      summary: 修改城市
+      parameters: 
+        - name: cityId
+          in: path
+          description: 城市ID
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: 城市
+          schema:
+            $ref: '#/definitions/ApiResponse'
+      responses: 
+        200: 
+          description: 成功响应
+          schema:
+            $ref: '#/definitions/ApiResponse'
+    delete:
+      summary: 根据ID删除
+      description: 根据ID删除
+      parameters: 
+        - name: cityId
+          in: path
+          description: 城市ID
+          required: true
+          type: string
+      responses:
+        200: 
+          description: 成功响应
+          schema:
+            $ref: '#/definitions/ApiResponse'
+    get:
+      summary: 根据ID查询 
+      parameters: 
+        - name: cityId
+          in: path
+          description: 城市ID
+          required: true
+          type: string
+      responses: 
+        200: 
+          description: 成功响应
+          schema:
+            $ref: '#/definitions/ApiCityResponse'
+  /city/seach:
+    post:
+      summary: 根据条件查询城市列表
+      parameters: 
+        - name: "body"
+          in: "body"
+          description: 城市实体类
+          required: true
+          schema: 
+            $ref: '#/definitions/City'
+      responses: 
+        200: 
+          description: 成功响应
+          schema:
+            $ref: '#/definitions/ApiCityResponse'
+  /city/seach/{page}/{size}:
+    post:
+      summary: 根据条件查询城市列表
+      parameters: 
+        - name: page
+          in: path
+          description: 页码
+          required: true
+          type: integer
+          format: int32
+        - name: size
+          in: path
+          description: 页大小
+          required: true
+          type: integer
+          format: int32
+        - name: "body"
+          in: "body"
+          description: 城市实体类
+          required: true
+          schema: 
+            $ref: '#/definitions/City'  
+      responses: 
+        200: 
+          description: 成功响应
+          schema:
+            $ref: '#/definitions/ApiCityPageResponse'
+definitions: 
+  City: 
+    type: object
+    properties:
+      id: 
+        type: string
+        description: "ID"
+      name: 
+        type: string
+        description: "名称"
+      ishot: 
+        type: string
+        description: "是否热门"
+  ApiResponse:
+    type: object
+    properties: 
+      flag: 
+        type: boolean
+        description: 是否成功
+      code:
+        type: integer
+        format: int32
+        description: 返回码
+      message:
+        type: string
+        description: 返回信息
+  ApiCityResponse:
+    type: object
+    properties: 
+      flag: 
+        type: boolean
+        description: 是否成功
+      code:
+        type: integer
+        format: int32
+        description: 返回码
+      message:
+        type: string
+        description: 返回信息
+      data:
+        $ref: '#/definitions/City'
+  CityList:
+    type: array
+    items:
+      $ref: '#/definitions/City'
+  ApiCityListResponse:
+    type: object
+    properties: 
+      flag: 
+        type: boolean
+        description: 是否成功
+      code:
+        type: integer
+        format: int32
+        description: 返回码
+      message:
+        type: string
+        description: 返回信息
+      data:
+        $ref: '#/definitions/CityList'
+  ApiCityPageResponse:
+    type: object
+    properties: 
+      flag: 
+        type: boolean
+        description: 是否成功
+      code:
+        type: integer
+        format: int32
+        description: 返回码
+      message:
+        type: string
+        description: 返回信息
+      data:
+        properties:
+          total:
+            type: integer
+            format: int32
+          rows:
+            $ref: '#/definitions/CityList'
+    
+    
